@@ -23,5 +23,5 @@ Coffee Den is a frontend coffee shop web application built using HTML, CSS, and 
 This is a frontend-only project. No backend or database is used. Authentication and data are stored locally for demonstration purposes.
 
 
-## 🙌 Author
-Your Name
+🙌 Author
+Abiha Zaidi
