@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Coffee</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#f5f1ec;color:#2b1e17}
+
+/* NAVBAR */
+header{
+position:fixed;
+top:0;
+width:100%;
+background:#2b1e17;
+color:#fff;
+z-index:1000;
+box-shadow:0 2px 10px rgba(0,0,0,0.2);
+}
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+}
+nav ul{
+display:flex;
+gap:25px;
+list-style:none;
+align-items:center;
+}
+nav a{
+color:#fff;
+text-decoration:none;
+font-weight:500;
+}
+nav a:hover{color:#d6a77a}
+.cart-icon{
+background:#d6a77a;
+color:#000;
+padding:6px 12px;
+border-radius:20px;
+font-weight:600;
+cursor:pointer;
+}
+
+/* CAROUSEL */
+.carousel{
+margin-top:80px;
+position:relative;
+overflow:hidden;
+}
+.slide{display:none;position:relative}
+.slide img{
+width:100%;
+height:550px;
+object-fit:cover;
+filter:brightness(0.7);
+}
+.slide.active{display:block}
+.carousel-text{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+color:#fff;
+text-align:center;
+}
+.prev, .next{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:rgba(0,0,0,0.4);
+color:#fff;
+border:none;
+font-size:30px;
+padding:10px 15px;
+cursor:pointer;
+border-radius:50%;
+z-index:10;
+}
+
+.prev{left:20px;}
+.next{right:20px;}
+.carousel-text h1{font-size:48px}
+.carousel-text p{margin-top:10px}
+
+/* HEADINGS */
+h2{
+text-align:center;
+font-size:42px;
+margin:50px 0 20px;
+font-weight:700;
+}
+h3{
+text-align:center;
+font-size:22px;
+margin:20px 0;
+font-weight:600;
+}
+
+/* MENU */
+section{padding:40px}
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+.card{
+background:#fff;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+.card:hover{transform:translateY(-8px)}
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+.card-content{
+padding:15px;
+text-align:center;
+}
+.card-content h3{
+font-size:18px;
+margin-bottom:8px;
+}
+.price{
+font-size:16px;
+color:#d6a77a;
+font-weight:600;
+margin-bottom:10px;
+}
+button{
+background:#2b1e17;
+color:#fff;
+border:none;
+padding:10px 15px;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* CART */
+.cart-box{
+position:fixed;
+top:90px;
+right:20px;
+width:380px;
+max-height:80vh;
+overflow-y:auto;
+padding:20px;
+border-radius:15px;
+}
+.cart-box.active{display:block}
+#cart-items{
+  list-style:none;
+  padding:0;
+}
+
+#cart-items li{
+  background:white;
+  margin:8px 0;
+  padding:10px;
+  border-radius:8px;
+  color:black;
+  text-align:left;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* GALLERY */
+.gallery{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+}
+.gallery img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* ABOUT */
+.about p{
+max-width:800px;
+margin:auto;
+text-align:center;
+line-height:1.6;
+font-size:18px;
+}
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.modal-content{
+background:#fff;
+padding:25px;
+border-radius:12px;
+width:300px;
+text-align:center;
+position:relative;
+}
+
+#modal-title {
+  color: black;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+#modal-desc {
+  color: black;
+  margin-bottom: 10px;
+}
+
+#modal-price {
+  color: #d6a77a;
+  font-weight: 600;
+}
+
+.close{
+  position:absolute;
+  right:12px;
+  top:10px;
+  font-size:24px;
+  font-weight:bold;
+  color:#000;
+  cursor:pointer;
+  z-index:10;
+}
+.contact-section{
+background:#2b1e17;
+color:#fff;
+padding:40px 15px;
+}
+
+.contact-section h2{
+text-align:center;
+color:#d6a77a;
+margin-bottom:25px;
+font-size:32px;
+}
+
+.contact-wrapper{
+max-width:800px;
+margin:auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+background:#3a2a22;
+padding:25px;
+border-radius:12px;
+}
+
+/* LEFT SIDE */
+.contact-info h3{
+color:#d6a77a;
+margin-bottom:10px;
+font-size:18px;
+}
+
+.contact-info p{
+margin:8px 0;
+font-size:14px;
+opacity:0.85;
+line-height:1.4;
+}
+
+/* FORM */
+.contact-form input,
+.contact-form textarea{
+padding:10px;
+border:none;
+border-radius:6px;
+font-size:13px;
+}
+
+.contact-form button{
+background:#d6a77a;
+color:#000;
+padding:10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:600;
+}
+
+.contact-form button:hover{
+background:#fff;
+}
+.contact-section{
+  background:#2b1e17;
+  color:#fff;
+  padding:60px 20px;
+}
+
+.contact-section h2{
+  text-align:center;
+  color:#d6a77a;
+  margin-bottom:30px;
+  font-size:34px;
+}
+
+.contact-wrapper{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  gap:20px;
+  background:#3a2a22;
+  padding:20px;
+  border-radius:15px;
+}
+
+/* LEFT SIDE */
+.contact-info{
+  flex:1;
+  padding:20px;
+}
+
+.contact-info h3{
+  color:#d6a77a;
+  margin-bottom:15px;
+}
+
+.contact-info p{
+  margin:10px 0;
+  font-size:14px;
+  line-height:1.5;
+  opacity:0.9;
+}
+
+/* RIGHT SIDE (MAP) */
+.contact-map{
+  flex:1;
+  min-height:300px;
+}
+.contact-wrapper{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  gap:20px;
+  background:#3a2a22;
+  padding:25px;
+  border-radius:15px;
+}
+
+/* LEFT */
+.contact-info{
+  flex:1;
+}
+
+/* RIGHT MAP */
+.contact-map{
+  flex:1;
+  min-height:320px;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+
+
+
+</style>
+</head>
+<body>
+<div id="auth-screen" style="
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:#2b1e17;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+color:white;
+flex-direction:column;
+">
+
+<h2>Welcome to Coffee Den</h2>
+
+<div style="background:#fff;color:#000;padding:20px;border-radius:10px;width:280px">
+
+<h3>Login / Signup</h3>
+
+<input id="username" placeholder="Username" style="width:100%;margin:5px 0;padding:8px">
+<input id="password" type="password" placeholder="Password" style="width:100%;margin:5px 0;padding:8px">
+
+<button onclick="signup()" style="width:100%;margin:5px 0">Sign Up</button>
+<button onclick="login()" style="width:100%">Login</button>
+
+</div>
+</div>
+
+<header>
+<nav>
+<h2>Coffee Den</h2>
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#about">About Us</a></li>
+<li><a href="#menu">Menu</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#contact">Contact Us</a></li>
+<li><div class="cart-icon" onclick="openCart()">Cart (<span id="cart-count">0</span>)</div></li>
+<li><button onclick="logout()" style="background:#d6a77a;color:black;border:none;padding:6px 10px;border-radius:10px">Logout</button></li>
+</ul>
+</nav>
+</header>
+
+
+
+
+<!-- CAROUSEL -->
+<div class="carousel">
+<div class="slide active">
+<img src="https://images.unsplash.com/photo-1498804103079-a6351b050096">
+<div class="carousel-text"><h1>Premium Coffee</h1><p>Fresh & Rich Aroma</p></div>
+</div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0">
+<div class="carousel-text"><h1>Crafted Experience</h1></div>
+</div>
+<div class="slide">
+<img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb">
+<div class="carousel-text"><h1>Luxury Café Feel</h1></div>
+</div>
+<div class="slide">
+<img src="del.jpg">
+<div class="carousel-text"><h1>Passion in Every Cup</h1></div>
+</div>
+<div class="slide">
+<img src="ja.avif">
+<div class="carousel-text"><h1>The Art of Coffee</h1><p>Where every bean tells a story</p></div>
+</div>
+</div>
+
+<!-- BUTTONS -->
+  <button class="prev" onclick="changeSlide(-1)">‹</button>
+  <button class="next" onclick="changeSlide(1)">›</button>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+<h2>Our Menu</h2>
+
+<h3>Hot Coffee</h3>
+<div class="menu-grid">
+<div class="card"><img src="a.jpg"><div class="card-content"><h3 style="cursor:pointer"
+onclick="openModal('Espresso',436,'Our signature espresso, precisely extracted from finely ground premium coffee beans, offering a rich, full-bodied flavor with a smooth, velvety crema.')">Espresso</h3>
+<p class="price">Rs 450</p><button onclick="addToCart('Espresso',450,'Our signature espresso, precisely extracted from finely ground premium coffee beans, offering a rich, full-bodied flavor with a smooth, velvety crema.')">Add to Cart</button></div></div>
+<div class="card"><img src="b.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Americano',530,'A classic Americano crafted from high-quality espresso and hot water, offering a balanced flavor profile with a smooth, mellow intensity.')">Americano</h3>
+<p class="price">Rs 530</p><button onclick="addToCart('Americano',530,'A classic Americano crafted from high-quality espresso and hot water, offering a balanced flavor profile with a smooth, mellow intensity.')">Add to Cart</button></div></div>
+<div class="card"><img src="c.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Cappuccino',545,'Crafted with equal parts espresso, steamed milk, and delicate milk foam, our cappuccino offers a rich aroma with a smooth, creamy texture')">Cappuccino</h3>
+<p class="price">Rs 545</p><button onclick="addToCart('Cappuccino',545,'Crafted with equal parts espresso, steamed milk, and delicate milk foam, our cappuccino offers a rich aroma with a smooth, creamy texture')">Add to Cart</button></div></div>
+<div class="card"><img src="d.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Latte',490,'Crafted with expertly pulled espresso and a generous amount of steamed milk, our latte delivers a soft, creamy texture with a subtle coffee strength.')">Latte</h3>
+<p class="price">RS 436.00</p><button onclick="addToCart('Latte',436,'Crafted with expertly pulled espresso and a generous amount of steamed milk, our latte delivers a soft, creamy texture with a subtle coffee strength.')">Add to Cart</button></div></div>
+<div class="card"><img src="e.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Mocha',490,'Crafted with expertly brewed espresso, velvety steamed milk, and premium chocolate, our mocha offers a harmonious blend of richness and sweetness.')">Mocha</h3>
+<p class="price">RS 490.00</p><button onclick="addToCart('Moche',490,'Crafted with expertly brewed espresso, velvety steamed milk, and premium chocolate, our mocha offers a harmonious blend of richness and sweetness.')">Add to Cart</button></div></div>
+<div class="card"><img src="f.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('hot pistachio latte',620,'Crafted with expertly brewed espresso, velvety steamed milk, and pistachio syrup, this latte delivers a rich, creamy texture with a subtle nutty sweetness.')">hot pistachio latte</h3>
+<p class="price">RS 620.00</p><button onclick="addToCart('hot pistachio latte',620,'Crafted with expertly brewed espresso, velvety steamed milk, and pistachio syrup, this latte delivers a rich, creamy texture with a subtle nutty sweetness.')">Add to Cart</button></div></div>
+<div class="card"><img src="g.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Hazelnut Latte',570,'Crafted with expertly brewed espresso, velvety steamed milk, and hazelnut syrup, this latte offers a rich, creamy texture with a delicate nutty sweetness.')">Hazelnut Latte</h3>
+<p class="price">RS 570.00</p><button onclick="addToCart('Hazelnut Latte',570,'Crafted with expertly brewed espresso, velvety steamed milk, and hazelnut syrup, this latte offers a rich, creamy texture with a delicate nutty sweetness.')">Add to Cart</button></div></div>
+<div class="card"><img src="h.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Tiramisu latte',600,'Crafted with expertly brewed espresso, velvety steamed milk, and tiramisu essence, this latte delivers a creamy texture with subtle cocoa and coffee notes.')">Tiramisu latte
+</h3><p class="price">RS 600.00</p><button onclick="addToCart('Tiramisu latte',600,'Crafted with expertly brewed espresso, velvety steamed milk, and tiramisu essence, this latte delivers a creamy texture with subtle cocoa and coffee notes.')">Add to Cart</button></div></div>
+</div>
+
+<h3>Iced Coffee</h3>
+<div class="menu-grid">
+<div class="card"><img src="a1.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced Latte',620,'A refreshing chilled coffee brewed for a smooth, bold flavor, served over ice for a crisp and invigorating experience.')">Iced Latte</h3>
+<p class="price">Rs 620</p><button onclick="addToCart('Iced Latte',620,'A refreshing chilled coffee brewed for a smooth, bold flavor, served over ice for a crisp and invigorating experience.')">Add to Cart</button></div></div>
+<div class="card"><img src="b2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced Spanish Latte',695,'Our iced Spanish latte combines bold espresso with milk and sweetened condensed milk, creating a smooth, rich, and perfectly balanced iced coffee.')">Iced Spanish Latte</h3>
+<p class="price">Rs 695</p><button onclick="addToCart('Iced Spanish Latte',695,'Our iced Spanish latte combines bold espresso with milk and sweetened condensed milk, creating a smooth, rich, and perfectly balanced iced coffee.')">Add to Cart</button></div></div>
+<div class="card"><img src="c1.avif"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced Mocha',735,'Our iced mocha combines bold espresso with cold milk and chocolate, creating a creamy, balanced, and refreshing iced coffee.')">Iced Mocha</h3>
+<p class="price">Rs 735</p><button onclick="addToCart('Iced Mocha',735,'Our iced mocha combines bold espresso with cold milk and chocolate, creating a creamy, balanced, and refreshing iced coffee.')">Add to Cart</button></div></div>
+<div class="card"><img src="d11.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced caramel macchiato',680,'Our iced caramel macchiato combines cold milk, bold espresso, and caramel drizzle, creating a smooth, lightly sweetened iced coffee experience.')">Iced caramel macchiato</h3>
+<p class="price">RS 680.00</p><button onclick="addToCart('Iced caramel macchiato',680,'Our iced caramel macchiato combines cold milk, bold espresso, and caramel drizzle, creating a smooth, lightly sweetened iced coffee experience.')">Add to Cart</button></div></div>
+<div class="card"><img src="e1.jpg"><div class="card-content"><h3  style="cursor:pointer" onclick="openModal('Iced French Vanilla Latte',695,'Our iced French vanilla latte combines bold espresso with cold milk and vanilla essence, creating a smooth, lightly sweet, and refreshing drink.')">Iced French Vanilla Latte</h3>
+<p class="price">RS 695.00</p><button onclick="addToCart('Iced French Vanilla Latte',695,'Our iced French vanilla latte combines bold espresso with cold milk and vanilla essence, creating a smooth, lightly sweet, and refreshing drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="f1.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced cinnamon spice latte',650,'Our iced cinnamon spice latte combines bold espresso with cold milk and aromatic cinnamon, creating a smooth and lightly spiced iced coffee.')"> Iced cinnamon spice latte</h3>
+<p class="price">RS 650.00</p><button onclick="addToCart('Iced cinnamon spice latte',650,'Our iced cinnamon spice latte combines bold espresso with cold milk and aromatic cinnamon, creating a smooth and lightly spiced iced coffee.')">Add to Cart</button></div></div>
+<div class="card"><img src="g11.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced matcha latte',780,'Our iced matcha latte combines finely whisked matcha with cold milk and ice, creating a smooth, balanced drink with a natural earthy sweetness.')">Iced matcha latte</h3>
+<p class="price">RS 780.00</p><button onclick="addToCart('Iced matcha latte',780,'Our iced matcha latte combines finely whisked matcha with cold milk and ice, creating a smooth, balanced drink with a natural earthy sweetness.')">Add to Cart</button></div></div>
+<div class="card"><img src="h1.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Iced pistachio latte',790,'Our iced pistachio latte combines bold espresso with cold milk and pistachio essence, creating a smooth, balanced, and refreshing iced coffee.')">Iced pistachio latte</h3>
+<p class="price">RS 790.00</p><button onclick="addToCart('Iced pistachio latte',790,'Our iced pistachio latte combines bold espresso with cold milk and pistachio essence, creating a smooth, balanced, and refreshing iced coffee.')">Add to Cart</button></div></div>
+</div>
+
+<h3>Frappes</h3>
+<div class="menu-grid">
+<div class="card"><img src="a2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Tiramisu Frappe',800,'Our tiramisu frappe blends coffee, milk, and tiramisu-inspired notes into a creamy, ice-blended drink with a rich and balanced flavor.')">Tiramisu Frappe</h3>
+<p class="price">Rs 800</p><button onclick="addToCart('Tiramisu Frappe',800,'Our tiramisu frappe blends coffee, milk, and tiramisu-inspired notes into a creamy, ice-blended drink with a rich and balanced flavor.')">Add to Cart</button></div></div>
+<div class="card"><img src="b3.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Chocolate fudge Frappe',780,'Our chocolate fudge frappe blends premium chocolate with milk and ice into a creamy, refreshing, and decadent drink.')">Chocolate fudge Frappe</h3>
+<p class="price">Rs 780</p><button onclick="addToCart('Chocolate fudge frappe',780,'Our chocolate fudge frappe blends premium chocolate with milk and ice into a creamy, refreshing, and decadent drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="c2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Caramel Frappe',750,'Our caramel frappe blends premium caramel with milk and ice into a smooth, refreshing, and lightly sweetened drink.')">Caramel Frappe</h3>
+<p class="price">Rs 750</p><button onclick="addToCart('Caramel Frappe',750,'Our caramel frappe blends premium caramel with milk and ice into a smooth, refreshing, and lightly sweetened drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="d2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Mocha Frappe',800,'Our mocha frappe blends bold coffee with chocolate, milk, and ice into a creamy, refreshing, and balanced drink.')">Mocha Frappe</h3>
+<p class="price">RS 800.00</p><button onclick="addToCart('Mocha Frappe',800,'Our mocha frappe blends bold coffee with chocolate, milk, and ice into a creamy, refreshing, and balanced drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="e2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Vanilla Bean Frappuccino',750,'Our vanilla bean frappuccino blends milk, ice, and premium vanilla bean essence into a creamy, refreshing, and lightly sweet drink.')">Vanilla Bean Frappuccino</h3>
+<p class="price">RS 750.00</p><button onclick="addToCart('Vanilla Bean Frappuccino',750,'Our vanilla bean frappuccino blends milk, ice, and premium vanilla bean essence into a creamy, refreshing, and lightly sweet drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="f2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Coconut Frappe',624,'Our coconut frappe blends rich coconut essence with milk and ice into a creamy, refreshing, and delicately sweet drink.')"> Coconut Frappe</h3>
+<p class="price">RS 624.00</p><button onclick="addToCart('Coconut Frappe',624,'Our coconut frappe blends rich coconut essence with milk and ice into a creamy, refreshing, and delicately sweet drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="g2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Pistachio Frappe',825,'Our pistachio frappe blends rich pistachio essence with milk and ice into a smooth, refreshing, and lightly sweetened drink.')">Pistachio Frappe</h3>
+<p class="price">RS 825.00</p><button onclick="addToCart('Pistachio Frappe',825,'Our pistachio frappe blends rich pistachio essence with milk and ice into a smooth, refreshing, and lightly sweetened drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="h2.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Roasted hazelnut Frappe',710,'Our roasted hazelnut frappe blends deep hazelnut notes with milk and ice into a creamy, smooth, and lightly sweetened drink.')">Roasted hazelnut Frappe</h3>
+<p class="price">RS 710.00</p><button onclick="addToCart('Roasted hazelnut Frappe',710,'Our roasted hazelnut frappe blends deep hazelnut notes with milk and ice into a creamy, smooth, and lightly sweetened drink.')">Add to Cart</button></div></div>
+</div>
+
+<h3>Iced Tea</h3>
+<div class="menu-grid">
+<div class="card"><img src="a3.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Lemon iced tea',580,'Our lemon iced tea combines freshly brewed tea with zesty lemon and ice, creating a crisp, refreshing, and balanced drink.')">Lemon iced tea</h3>
+<p class="price">Rs 580</p><button onclick="addToCart('Lemon iced tea',580,'Our lemon iced tea combines freshly brewed tea with zesty lemon and ice, creating a crisp, refreshing, and balanced drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="b4.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Peach Iced Tea',530,'Our peach iced tea combines freshly brewed tea with natural peach essence and ice, creating a light, refreshing, and fruity drink.')">Peach Iced Tea</h3>
+<p class="price">Rs 530</p><button onclick="addToCart('Peach Iced Tea',530,'Our peach iced tea combines freshly brewed tea with natural peach essence and ice, creating a light, refreshing, and fruity drink.')">Add to Cart</button></div></div>
+<div class="card"><img src="c3.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Raspberry Iced Tea',550,'Our raspberry iced tea combines freshly brewed tea with natural raspberry essence and ice, creating a crisp, refreshing, and fruity drink.')">Raspberry Iced Tea</h3>
+<p class="price">Rs 550</p><button onclick="addToCart('Raspberry Iced Tea',550,'Our raspberry iced tea combines freshly brewed tea with natural raspberry essence and ice, creating a crisp, refreshing, and fruity drink.')">Add to Cart</button></div></div>
+</div>
+
+<h3>Desserts</h3>
+<div class="menu-grid">
+<div class="card"><img src="a44.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Chocolate Fudge Brownies',345,'Our chocolate fudge brownies are crafted with rich cocoa and a soft fudge texture, delivering a deep, chocolatey and satisfying treat.')">Chocolate Fudge Brownies</h3>
+<p class="price">Rs 345</p><button onclick="addToCart('Chocolate Fudge Brownies',345,'Our chocolate fudge brownies are crafted with rich cocoa and a soft fudge texture, delivering a deep, chocolatey and satisfying treat.')">Add to Cart</button></div></div>
+<div class="card"><img src="b33.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Chicken Croissants',740,'Our chicken croissants feature tender, seasoned chicken wrapped in a freshly baked, buttery croissant for a satisfying savory bite.')">Chicken Croissants</h3>
+<p class="price">Rs 740</p><button onclick="addToCart('Chicken croissants',740,'Our chicken croissants feature tender, seasoned chicken wrapped in a freshly baked, buttery croissant for a satisfying savory bite.')">Add to Cart</button></div></div>
+<div class="card"><img src="c22.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('BBQ Chicken Croissants',785,'Our BBQ chicken croissants feature seasoned chicken coated in rich BBQ sauce, wrapped in a golden, flaky croissant for a bold savory flavor.')">BBQ Chicken Croissants</h3>
+<p class="price">Rs 785</p><button onclick="addToCart('BBQ Chicken Croissants',785,'Our BBQ chicken croissants feature seasoned chicken coated in rich BBQ sauce, wrapped in a golden, flaky croissant for a bold savory flavor.')">Add to Cart</button></div></div>
+<div class="card"><img src="d22.jpg"><div class="card-content"><h3 style="cursor:pointer" onclick="openModal('Banana bread',345,'Our banana bread is freshly baked with ripe bananas, delivering a moist, flavorful loaf with a rich, natural sweetness.')">Banana bread</h3>
+<p class="price">RS 345.00</p><button onclick="addToCart('Banana bread',345,'Our banana bread is freshly baked with ripe bananas, delivering a moist, flavorful loaf with a rich, natural sweetness.')">Add to Cart</button></div></div>
+</div>
+<h3>Extras</h3>
+<div class="menu-grid">
+<div class="card"><img src="a21.jpg"><div class="card-content"><h3>Extra Shot</h3><p class="price">Rs 195</p><button onclick="addToCart('Extra Shot',195)">Add to Cart</button></div></div>
+<div class="card"><img src="b21.jpg"><div class="card-content"><h3>Extra Pump Vanilla</h3><p class="price">Rs 195</p><button onclick="addToCart('Extra Pump Vanilla',195)">Add to Cart</button></div></div>
+<div class="card"><img src="c21.jpg"><div class="card-content"><h3>Extra Pump Caramel</h3><p class="price">Rs 195</p><button onclick="addToCart('Extra Pump Caramel',195)">Add to Cart</button></div></div>
+<div class="card"><img src="d21.jpg"><div class="card-content"><h3>Water Sparkling</h3><p class="price">RS 130.00</p><button onclick="addToCart('Water Sparkling',130)">Add to Cart</button></div></div>
+<div class="card"><img src="e21.webp"><div class="card-content"><h3>Extra Whipped Cream</h3><p class="price">RS 195.00</p><button onclick="addToCart('Extra Whipped Cream',195)">Add to Cart</button></div></div>
+
+
+
+
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about">
+<h2>About Us</h2>
+<p>
+Premium Coffee is dedicated to serving freshly crafted coffee made from premium-quality beans sourced from trusted farms.
+We focus on delivering rich flavor, consistency, and a warm café experience where customers can relax, connect, and enjoy every sip.
+Our mission is to bring café-quality coffee and comfort to every customer, every day.
+</p>
+</section>
+
+
+
+
+<!-- GALLERY -->
+<section id="gallery">
+<h2>Gallery</h2>
+<div class="gallery">
+<img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93">
+<img src="https://images.unsplash.com/photo-1511920170033-f8396924c348">
+<img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085">
+<img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb">
+<img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735">
+<img src="as.jpg">
+
+</div>
+</section>
+<!-- CONTACT -->
+
+ <section id="contact" class="contact-section">
+
+<h2>Contact Us</h2>
+
+<div class="contact-wrapper">
+
+  <!-- LEFT SIDE (DETAILS) -->
+  <div class="contact-info">
+
+    <h3>☕ Coffee Den</h3>
+
+    <p>📍 DHA Phase 5, Khayaban-e-Ittehad, Karachi</p>
+    <p>📞 +92 300 1234567</p>
+    <p>📞 +92-21-35294045</p>
+    <p>📧 CoffeeDen@gmail.com</p>
+
+    <p>🕒 Mon – Sun: 8:00 AM – 11:00 PM</p>
+
+    <hr style="margin:15px 0;opacity:0.2">
+
+    <p style="font-size:13px;opacity:0.8">
+      Visit us for premium coffee experience ☕  
+      Fresh beans • Cozy environment • Fast service
+    </p>
+
+  </div>
+
+  <!-- RIGHT SIDE (MAP) -->
+  <div class="contact-map">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14488.790236702751!2d67.05993058715822!3d24.78868780000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33d3bb7de24c5%3A0xc7d9868f49a8a0bb!2sCoffee%20Den!5e0!3m2!1sen!2s!4v1776793723539!5m2!1sen!2s"
+    width="100%"
+    height="100%"
+    style="border:0; border-radius:12px;"
+    allowfullscreen=""
+    loading="lazy">
+  </iframe>
+</div>
+
+</div>
+
+</section>
+
+
+
+
+
+
+<script>
+localStorage.removeItem("loggedUser");
+
+
+function login(){
+let u=document.getElementById("username").value;
+let p=document.getElementById("password").value;
+
+if(localStorage.getItem("user_"+u)==p){
+localStorage.setItem("loggedUser",u);
+document.getElementById("auth-screen").style.display="none";
+}else{
+alert("Wrong username or password");
+}
+}
+let slides = document.querySelectorAll('.slide');
+let index = 0;
+let interval;
+
+function showSlide(i){
+  slides.forEach(slide => slide.classList.remove('active'));
+  slides[i].classList.add('active');
+}
+
+function changeSlide(step){
+  index = (index + step + slides.length) % slides.length;
+  showSlide(index);
+  resetAutoSlide();
+}
+
+function startAutoSlide(){
+  interval = setInterval(()=>{
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  }, 4000);
+}
+
+function resetAutoSlide(){
+  clearInterval(interval);
+  startAutoSlide();
+}
+
+showSlide(index);
+startAutoSlide();
+function signup(){
+let u=document.getElementById("username").value;
+let p=document.getElementById("password").value;
+
+localStorage.setItem("user_"+u,p);
+alert("Account created! Now login");
+}
+
+let cart = [];
+
+function addToCart(name, price){
+    let found = cart.find(item => item.name === name);
+
+    if(found){
+        found.qty += 1;
+    } else {
+        cart.push({name, price, qty:1});
+    }
+
+    updateCart();
+}
+function updateCart(){
+let list=document.getElementById('cart-items');
+let count=document.getElementById('cart-count');
+
+if(!list) return; 
+
+list.innerHTML='';
+if(cart.length === 0){
+    list.innerHTML = "<li>Your cart is empty</li>";
+    count.textContent = 0;
+    return;
+}
+let total=0;
+
+cart.forEach((item,index)=>{
+
+let itemTotal = item.price * item.qty;
+total += itemTotal;
+
+let li=document.createElement('li');
+
+li.innerHTML=`
+<b>${item.name}</b><br>
+Rs ${item.price} x ${item.qty} = Rs ${itemTotal}
+<br>
+
+<button onclick="changeQty(${index},-1)">-</button>
+<button onclick="changeQty(${index},1)">+</button>
+
+<button onclick="removeItem(${index})">Remove</button>
+
+<hr>
+`;
+
+list.appendChild(li);
+});
+
+count.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+
+// DELIVERY
+let area=document.getElementById("area-select").value;
+
+let charges={
+"Clifton":200,"DHA":250,"Saddar":150,"Gulshan-e-Iqbal":180,
+"Gulistan-e-Johar":180,"Korangi":220,"Landhi":250,"Malir":200,
+"Nazimabad":170,"North Nazimabad":170,"Lyari":300,"Orangi Town":300,
+"Shah Faisal Colony":230,"PECHS":200,"Bahadurabad":180
+};
+
+let delivery=charges[area]||0;
+
+let grand=total+delivery;
+
+let t=document.createElement('li');
+t.innerHTML=`
+<b>Subtotal: Rs ${total}</b><br>
+<b>Delivery: Rs ${delivery}</b><br>
+<b>Total: Rs ${grand}</b>
+`;
+
+list.appendChild(t);
+}
+function changeQty(index, value){
+cart[index].qty += value;
+
+if(cart[index].qty <= 0){
+cart.splice(index,1);
+}
+
+updateCart();
+}
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
+}
+function openCart(){
+    updateCart();
+    document.getElementById('cart-modal').style.display = 'flex';
+
+    let list = document.getElementById('cart-items');
+
+    // 👇 Add welcome message at top
+    let welcome = document.createElement('li');
+    welcome.innerHTML = "<b>👋 Welcome to your cart!</b>";
+    welcome.style.textAlign = "center";
+    welcome.style.background = "#fff";
+    welcome.style.padding = "10px";
+    welcome.style.borderRadius = "8px";
+    welcome.style.marginBottom = "10px";
+
+    list.prepend(welcome);
+}
+
+function closeCart(){
+document.getElementById('cart-modal').style.display = 'none';
+}
+function openModal(name, price, desc){
+    document.getElementById('product-modal').style.display = 'flex';
+    document.getElementById('modal-title').innerText = name;
+    document.getElementById('modal-desc').innerText = desc;
+    document.getElementById('modal-price').innerText = "Rs " + price;
+
+    document.getElementById('modal-add').innerText = "Add to Cart";
+    document.getElementById('modal-add').onclick = function(){
+        addToCart(name, price, desc);
+        closeModal();
+    }
+}
+
+function closeModal(){
+    document.getElementById('product-modal').style.display = 'none';
+}
+window.onload = function(){
+let user = localStorage.getItem("loggedUser");
+if(user){
+document.getElementById("auth-screen").style.display = "none";
+}
+}
+function checkout(){
+let area = document.getElementById("area-select")?.value || "";
+let address=document.getElementById("address").value;
+
+if(area=="" || address==""){
+alert("Please select area and enter address");
+return;
+}
+
+if(cart.length==0){
+alert("Cart is empty");
+return;
+}
+
+alert("Order Placed Successfully!\nWe will deliver to:\n"+address);
+cart=[];
+updateCart();
+closeCart();
+}
+function logout(){
+localStorage.removeItem("loggedUser");
+location.reload();
+}
+</script>
+<div id="product-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc"></p>
+    <p id="modal-price"></p>
+    <button id="modal-add"></button>
+  </div>
+</div>
+
+<div id="cart-modal" class="modal">
+  <div class="modal-content" style="width:500px;max-height:80vh;overflow-y:auto">
+
+    <span class="close" onclick="closeCart()">&times;</span>
+
+    <h2>Your Cart</h2>
+
+    <select id="area-select" onchange="updateCart()" style="width:100%;padding:8px;margin-bottom:10px">
+      <option value="">Select Area</option>
+      <option>Clifton</option>
+      <option>DHA</option>
+      <option>Saddar</option>
+      <option>Gulshan-e-Iqbal</option>
+    </select>
+
+    <ul id="cart-items"></ul>
+
+    <input id="address" placeholder="Enter Full Address"
+    style="width:100%;margin-top:10px;padding:8px;border-radius:6px;border:1px solid #ccc">
+
+    <button onclick="checkout()" 
+    style="width:100%;margin-top:10px;background:#d6a77a;color:#000">
+    Checkout
+    </button>
+
+  </div>
+</div>
+
+</body>
+</html>
